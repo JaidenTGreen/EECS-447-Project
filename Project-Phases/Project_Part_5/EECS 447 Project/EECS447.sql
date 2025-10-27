@@ -45,14 +45,14 @@ FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
 
 -- CREATES FEE ENTITY TABLE: LUIS
 CREATE TABLE IF NOT EXISTS Fee(
-FeeID CHAR(8) NOT NULL PRIMARY KEY,	        --Identification Number for Fee
-UID CHAR(8) NOT NULL,	    --Foreign Key of Client'sID
+FeeID CHAR(8) NOT NULL PRIMARY KEY,	            --Identification Number for Fee
+UID CHAR(8) NOT NULL,	                        --Foreign Key of Client'sID
 DueDate DATE NOT NULL,	                        --Date Fee is Due
 PaidAt DATE,	                                --Date Fee is Paid
 Overdue	BOOLEAN NOT NULL,	                    --y/n if fee is overdue
-PaymentMethod VARCHAR(15) NOT NULL,--how was the fee paid
+PaymentMethod VARCHAR(15) NOT NULL,             --how was the fee paid
 PaidStatus BOOLEAN NOT NULL,	                --y/n if the fee is paid
-TransactionID CHAR(8) NOT NULL,   --Foreign key to Transaction ID
+TransactionID CHAR(8) NOT NULL,                 --Foreign key to Transaction ID
 Amount FLOAT(2) NOT NULL,	                    --Amount of money due
 FOREIGN KEY (UID) REFERENCES Client(UID),
 FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
@@ -60,8 +60,8 @@ FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
 
 -- CREATES RENTS RELATIONSHIP TABLE: LUIS
 CREATE TABLE IF NOT EXISTS Rents(
-TransactionID CHAR(8) NOT NULL,	--Identifies the checkout/return record this copy is part of
-UID CHAR(8) NOT NULL,	--Identifies the exact physical copy that's being rented
+TransactionID CHAR(8) NOT NULL,	    --Identifies the checkout/return record this copy is part of
+UID CHAR(8) NOT NULL,	            --Identifies the exact physical copy that's being rented
 FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID),
 FOREIGN KEY (UID) REFERENCES Client(UID)
 );

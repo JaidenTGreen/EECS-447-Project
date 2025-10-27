@@ -1,8 +1,8 @@
 /*
 NAME: EECS 447 PROJECT
 DESCRIPTION: DATABASE SYSTEM FOR LIBRARY MANAGEMENT
-CONTRIBUTORS: JAIDEN GREEN
-DATE: OCTOBER 22, 2025
+CONTRIBUTORS: JAIDEN GREEN, SHERO BAIG
+START DATE: OCTOBER 22, 2025
 LAST UPDATED: OCTOBER 26, 2025
 */
 
@@ -64,4 +64,46 @@ TransactionID CHAR(8) NOT NULL,	    --Identifies the checkout/return record this
 UID CHAR(8) NOT NULL,	            --Identifies the exact physical copy that's being rented
 FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID),
 FOREIGN KEY (UID) REFERENCES Client(UID)
+);
+
+--CREATES ITEMS ENTITY TABLE: SHERO
+CREATE TABLE IF NOT EXISTS Items(
+CopyID CHAR(8) NOT NULL PRIMARY KEY, --Identification Number for the Copy, primary key of Items entity
+Title VARCHAR(50) NOT NULL, -- Title of the Copy with up to 50 characters allowed, cant be null
+Genre VARCHAR(15) NOT NULL, -- Genre of the Copy with up to 15 characters allowed, cant be null
+ReleaseDate DATE NOT NULL, -- Release date of the Copy, cant be null
+Availability BOOLEAN NOT NULL, -- Availability of Copy, either Availabile or not (True or False), cant be null
+NumofCheckouts SMALLINT, -- Tells the number of times the copy has been checked out, smallint used cause it will be small whole numbers
+Duedate DATE -- Date when the copy is due
+);
+--CREATES BOOKS SPECIALIZATION TABLE: SHERO
+CREATE TABLE IF NOT EXISTS Books(
+CopyID CHAR(8) NOT NULL PRIMARY KEY, --Identification Number for the Copy, primary key of books specialization 
+ISBN CHAR(13) NOT NULL, --ISBN Number for books with a fixed amount of 13 characters, cant be null
+Author VARCHAR(50) NOT NULL, -- Author's name with up to 50 characters allowed, cant be null
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID) -- foreign key is the copyID cause it is referenced from Items
+);
+
+--CREATES MAGAZINES SPECIALIZATION TABLE: SHERO
+CREATE TABLE IF NOT EXISTS Magazines(
+CopyID CHAR(8) NOT NULL PRIMARY KEY, --Identification Number for the Copy, primary key of magazines specialization with a fixed amount of 8 characters, and cant be null
+IssueNum CHAR(6) NOT NULL, --Issue number of the magazine with a fixed amount of 6 characters, and cant be null
+Publisher VARCHAR(50) NOT NULL, --Publisher of the magazine that can go up to 50 characters
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID) -- foreign key is the copyID cause it is referenced from Items
+);
+
+--CREATES MOVIES SPECIALIZATION TABLE: SHERO
+CREATE TABLE IF NOT EXISTS Movies(
+CopyID CHAR(8) NOT NULL PRIMARY KEY, --Identification Number for the Copy, primary key of movies specialization with a fixed amount of 8 characters, and cant be null
+Rating CHAR(4) NOT NULL, --Rating on rotten tomatoes for the movie, with a fixed amount of 4 characters, cant be null
+Director VARCHAR(50) NOT NULL, --Director of the movie, can go up to 50 characters, cant be null
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
+);
+
+--CREATES RENTED RELATIONSHIP TABLE: SHERO
+CREATE TABLE IF NOT EXISTS Rented(
+TransactionID CHAR(8) NOT NULL PRIMARY KEY, -- Idenitfies the checkout/return record this copy is part of. Up to fixed amount of 8 characters and a primary key and cant be null
+CopyID CHAR(8) NOT NULL, -- Identifies the exact physical copy that's being rented. Up to fixed amount of 8 characters and cant be null
+FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID), --Foreign key is transactionid and it is referenced from UserTransaction
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID) --Another foreign key is CopyID and it is referenced from Items
 );

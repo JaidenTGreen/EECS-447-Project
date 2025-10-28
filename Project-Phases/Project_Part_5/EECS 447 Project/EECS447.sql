@@ -108,7 +108,7 @@ FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID), --Foreign
 FOREIGN KEY (CopyID) REFERENCES Items(CopyID) --Another foreign key is CopyID and it is referenced from Items
 );
 
--- Create UserTransaction table
+-- Create UserTransaction table: Amrit
 CREATE TABLE IF NOT EXISTS UserTransaction (                     -- Creates the UserTransaction table if it doesn't already exist
     TransactionID CHAR(8) PRIMARY KEY,                           -- Unique transaction identifier
     LateFee NUMERIC(12,2) DEFAULT 0 CHECK (LateFee >= 0),        -- Late fee amount, must be non-negative
@@ -131,7 +131,7 @@ CREATE INDEX IF NOT EXISTS idx_ut_client ON UserTransaction(ClientID);  -- Index
 CREATE INDEX IF NOT EXISTS idx_ut_lib ON UserTransaction(LibrarianID);  -- Index on LibrarianID for efficient librarian searches
 
 
--- Create Assists table
+-- Create Assists table: Amrit
 CREATE TABLE IF NOT EXISTS Assists (                            -- Creates the Assists table if it doesn't already exist
     LibrarianID CHAR(8) NOT NULL,                               -- References the librarian assisting with the transaction
     TransactionID CHAR(8) NOT NULL,                             -- References the related transaction

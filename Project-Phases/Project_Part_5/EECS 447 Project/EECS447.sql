@@ -140,5 +140,14 @@ CREATE TABLE IF NOT EXISTS Assists (                            -- Creates the A
     FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)  -- Foreign key linking to UserTransaction table
 );                                                              -- Ends table creation
 
+-- Creates Pays Table: Eric
+CREATE TABLE IF NOT EXISTS Pays (
+    FeeID CHAR(8) NOT NULL, -- Identifies the specific fee being paid 
+    UID CHAR(8) NOT NULL, -- Identifies the user paying the fee
+    PRIMARY KEY (FeeID), -- Primary key FeeId uniquely identifies the transaction 
+    FOREIGN KEY (UID) REFERENCES Client(UID), -- Foreign key linking to Client 
+    FOREIGN KEY (FeeID) REFERENCES Fee(FeeID) -- Foreign key linking to Fee
+    ); -- Ends table creation 
+
 CREATE INDEX IF NOT EXISTS idx_assists_lib ON Assists(LibrarianID);      -- Index on LibrarianID for quick lookup by librarian
 CREATE INDEX IF NOT EXISTS idx_assists_txn ON Assists(TransactionID);    -- Index on TransactionID for quick lookup by transaction

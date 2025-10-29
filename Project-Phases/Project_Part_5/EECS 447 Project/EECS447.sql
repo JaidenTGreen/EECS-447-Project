@@ -36,36 +36,7 @@ Salary Float(10,2),                             --Salary of the librarian
 FOREIGN KEY (UID) REFERENCES USER(UID)
 );
 
---CREATES RESERVES RELATINSHIP TABLE: Jaiden
-CREATE TABLE Reserves(
-CopyID CHAR(8) not null PRIMARY KEY,            --Identification number for Items
-UID CHAR(8) not null,                           --Identification number for User
-FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
-);
-
--- CREATES FEE ENTITY TABLE: LUIS
-CREATE TABLE IF NOT EXISTS Fee(
-FeeID CHAR(8) NOT NULL PRIMARY KEY,	            --Identification Number for Fee
-UID CHAR(8) NOT NULL,	                        --Foreign Key of Client'sID
-DueDate DATE NOT NULL,	                        --Date Fee is Due
-PaidAt DATE,	                                --Date Fee is Paid
-Overdue	BOOLEAN NOT NULL,	                    --y/n if fee is overdue
-PaymentMethod VARCHAR(15) NOT NULL,             --how was the fee paid
-PaidStatus BOOLEAN NOT NULL,	                --y/n if the fee is paid
-TransactionID CHAR(8) NOT NULL,                 --Foreign key to Transaction ID
-Amount FLOAT(2) NOT NULL,	                    --Amount of money due
-FOREIGN KEY (UID) REFERENCES Client(UID),
-FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
-);
-
--- CREATES RENTS RELATIONSHIP TABLE: LUIS
-CREATE TABLE IF NOT EXISTS Rents(
-TransactionID CHAR(8) NOT NULL,	    --Identifies the checkout/return record this copy is part of
-UID CHAR(8) NOT NULL,	            --Identifies the exact physical copy that's being rented
-FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID),
-FOREIGN KEY (UID) REFERENCES Client(UID)
-);
-
+--Moved the Items Table above Reserves to make sure Reserves is referencing Items Correctly; Jaiden
 --CREATES ITEMS ENTITY TABLE: SHERO
 CREATE TABLE IF NOT EXISTS Items(
 CopyID CHAR(8) NOT NULL PRIMARY KEY, --Identification Number for the Copy, primary key of Items entity
@@ -99,6 +70,37 @@ Rating CHAR(4) NOT NULL, --Rating on rotten tomatoes for the movie, with a fixed
 Director VARCHAR(50) NOT NULL, --Director of the movie, can go up to 50 characters, cant be null
 FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
 );
+
+--CREATES RESERVES RELATINSHIP TABLE: Jaiden
+CREATE TABLE Reserves(
+CopyID CHAR(8) not null PRIMARY KEY,            --Identification number for Items
+UID CHAR(8) not null,                           --Identification number for User
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
+);
+
+-- CREATES FEE ENTITY TABLE: LUIS
+CREATE TABLE IF NOT EXISTS Fee(
+FeeID CHAR(8) NOT NULL PRIMARY KEY,	            --Identification Number for Fee
+UID CHAR(8) NOT NULL,	                        --Foreign Key of Client'sID
+DueDate DATE NOT NULL,	                        --Date Fee is Due
+PaidAt DATE,	                                --Date Fee is Paid
+Overdue	BOOLEAN NOT NULL,	                    --y/n if fee is overdue
+PaymentMethod VARCHAR(15) NOT NULL,             --how was the fee paid
+PaidStatus BOOLEAN NOT NULL,	                --y/n if the fee is paid
+TransactionID CHAR(8) NOT NULL,                 --Foreign key to Transaction ID
+Amount FLOAT(2) NOT NULL,	                    --Amount of money due
+FOREIGN KEY (UID) REFERENCES Client(UID),
+FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
+);
+
+-- CREATES RENTS RELATIONSHIP TABLE: LUIS
+CREATE TABLE IF NOT EXISTS Rents(
+TransactionID CHAR(8) NOT NULL,	    --Identifies the checkout/return record this copy is part of
+UID CHAR(8) NOT NULL,	            --Identifies the exact physical copy that's being rented
+FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID),
+FOREIGN KEY (UID) REFERENCES Client(UID)
+);
+
 
 --CREATES RENTED RELATIONSHIP TABLE: SHERO
 CREATE TABLE IF NOT EXISTS Rented(

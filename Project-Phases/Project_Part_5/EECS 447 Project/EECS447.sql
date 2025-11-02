@@ -3,11 +3,11 @@ NAME: EECS 447 PROJECT (DDL)
 DESCRIPTION: DDL OF DATABASE SYSTEM FOR LIBRARY MANAGEMENT
 CONTRIBUTORS: JAIDEN GREEN, SHERO BAIG, LUIS, ERIC, AMRIT
 START DATE: OCTOBER 22, 2025
-LAST UPDATED: OCTOBER 29, 2025
+LAST UPDATED: November 2, 2025
 */
 
---Creates User Entity Table: Jaiden
-CREATE TABLE USER(
+--Creates Library User Entity Table: Jaiden
+CREATE TABLE LIBUSER(
 UID CHAR(8) not null primary key,       --Identification Number for Users
 Fname VARCHAR(20) not null,             --First name of the user 
 Lname VARCHAR(20) not null,             --Last name of the user
@@ -26,14 +26,14 @@ CREATE TABLE Client(
 UID CHAR(8) not null PRIMARY KEY,           --Identification number for User
 AcctStanding INT,                           --Stores how many items are loaned(should not be more than 3)
 MemStart DATE,                              --Date of membership start
-FOREIGN KEY (UID) REFERENCES USER(UID)
+FOREIGN KEY (UID) REFERENCES LIBUSER(UID)
 );
 
 --CREATES LIBRARIAN SPECIALIZATION TABLE: Jaiden
 CREATE TABLE Librarian(
 UID CHAR(8) not null PRIMARY KEY,               --Identification number for User
 Salary Float(10,2),                             --Salary of the librarian
-FOREIGN KEY (UID) REFERENCES USER(UID)
+FOREIGN KEY (UID) REFERENCES LIBUSER(UID)
 );
 
 --Moved the Items Table above Reserves to make sure Reserves is referencing Items Correctly; Jaiden
@@ -137,7 +137,7 @@ CREATE INDEX IF NOT EXISTS idx_ut_lib ON UserTransaction(LibrarianID);  -- Index
 CREATE TABLE IF NOT EXISTS Assists (                            -- Creates the Assists table if it doesn't already exist
     LibrarianID CHAR(8) NOT NULL,                               -- References the librarian assisting with the transaction
     TransactionID CHAR(8) NOT NULL,                             -- References the related transaction
-    PRIMARY KEY (LibrarianID, TransactionID),                   -- Composite primary key (each librarian-transaction pair is unique)
+    PRIMARY KEY (TransactionID),                   -- Composite primary key (each librarian-transaction pair is unique)
     FOREIGN KEY (LibrarianID) REFERENCES Librarian(UID),        -- Foreign key linking to Librarian table
     FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)  -- Foreign key linking to UserTransaction table
 );                                                              -- Ends table creation

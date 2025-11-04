@@ -3,7 +3,7 @@ NAME: EECS 447 PROJECT (DDL)
 DESCRIPTION: DDL OF DATABASE SYSTEM FOR LIBRARY MANAGEMENT
 CONTRIBUTORS: JAIDEN GREEN, SHERO BAIG, LUIS, ERIC, AMRIT
 START DATE: OCTOBER 22, 2025
-LAST UPDATED: November 2, 2025
+LAST UPDATED: November 4, 2025
 */
 
 --Creates Library User Entity Table: Jaiden
@@ -98,7 +98,7 @@ FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
 -- CREATES RENTS RELATIONSHIP TABLE: LUIS
 CREATE TABLE IF NOT EXISTS Rents(
 TransactionID CHAR(8) NOT NULL,	    --Identifies the checkout/return record this copy is part of
-UID CHAR(8) NOT NULL,	            --Identifies the exact physical copy that's being rented
+UID CHAR(8) NOT NULL,	            --Identification number for User
 FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID),
 FOREIGN KEY (UID) REFERENCES Client(UID)
 );

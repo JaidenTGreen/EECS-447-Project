@@ -73,9 +73,11 @@ FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
 
 --CREATES RESERVES RELATINSHIP TABLE: Jaiden
 CREATE TABLE Reserves(
-CopyID CHAR(8) not null PRIMARY KEY,            --Identification number for Items
+CopyID CHAR(8) not null,            --Identification number for Items
 UID CHAR(8) not null,                           --Identification number for User
+ReservedAt DATE,
 FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
+FOREIGN KEY (UID) REFERENCES Client(UID)
 );
 
 -- CREATES FEE ENTITY TABLE: LUIS

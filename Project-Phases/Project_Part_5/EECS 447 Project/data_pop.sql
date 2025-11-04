@@ -246,6 +246,36 @@ Insert INTO Assists VALUES ('U0000010', 'T00000010');
 --    FEE
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- Luffy, T0000001: returned late by 1 day
+INSERT INTO FEE VALUES ('F0000001','U0000001','2025-10-15','2025-10-16', TRUE ,'Credit Card', TRUE ,'T0000001', 5.00);
+
+-- Frank, T0000002: paid early, not overdue
+INSERT INTO FEE VALUES ('F0000002','U0000002','2025-10-20','2025-10-19', FALSE,'Cash', TRUE ,'T0000002', 5.00);
+
+-- Dennis, T0000003: unpaid and overdue as of 2025-11-03
+INSERT INTO FEE VALUES ('F0000003','U0000003','2025-10-22', NULL, TRUE ,'Pending', FALSE,'T0000003', 5.00);
+
+-- Dee, T0000004: unpaid, not overdue yet (due 2025-11-05)
+INSERT INTO FEE VALUES ('F0000004','U0000004','2025-11-05', NULL, FALSE,'Pending', FALSE,'T0000004', 5.00);
+
+-- Mac, T0000005: paid on time
+INSERT INTO FEE VALUES ('F0000005','U0000005','2025-10-25','2025-10-25', FALSE,'Online', TRUE ,'T0000005', 5.00);
+
+-- Charlie, T0000006: paid after due date -> overdue
+INSERT INTO FEE VALUES ('F0000006','U0000006','2025-10-28','2025-11-01', TRUE ,'Debit Card', TRUE ,'T0000006', 5.00);
+
+-- Luffy again, T0000007: unpaid, future due date
+INSERT INTO FEE VALUES ('F0000007','U0000001','2025-11-10', NULL, FALSE,'Pending', FALSE,'T0000007', 5.00);
+
+-- Frank, T0000008: paid on time
+INSERT INTO FEE VALUES ('F0000008','U0000002','2025-10-18','2025-10-18', FALSE,'Cash', TRUE ,'T0000008', 5.00);
+
+-- Dennis, T0000009: unpaid and overdue (due 2025-11-02)
+INSERT INTO FEE VALUES ('F0000009','U0000003','2025-11-02', NULL, TRUE ,'Pending', FALSE,'T0000009', 5.00);
+
+-- Dee, T0000010: unpaid, future due date
+INSERT INTO FEE VALUES ('F0000010','U0000004','2025-11-12', NULL, FALSE,'Pending', FALSE,'T0000010', 5.00);
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Rents
 --~~~~~~~~~~~~~~~~~~~~~~~~~

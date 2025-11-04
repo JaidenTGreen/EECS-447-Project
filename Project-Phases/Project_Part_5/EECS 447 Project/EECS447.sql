@@ -76,7 +76,7 @@ CREATE TABLE Reserves(
 CopyID CHAR(8) not null,            --Identification number for Items
 UID CHAR(8) not null,                           --Identification number for User
 ReservedAt DATE,
-FOREIGN KEY (CopyID) REFERENCES Items(CopyID)
+FOREIGN KEY (CopyID) REFERENCES Items(CopyID),
 FOREIGN KEY (UID) REFERENCES Client(UID)
 );
 
@@ -90,7 +90,7 @@ Overdue	BOOLEAN NOT NULL,	                    --y/n if fee is overdue
 PaymentMethod VARCHAR(15) NOT NULL,             --how was the fee paid
 PaidStatus BOOLEAN NOT NULL,	                --y/n if the fee is paid
 TransactionID CHAR(8) NOT NULL,                 --Foreign key to Transaction ID
-Amount FLOAT(2) NOT NULL,	                    --Amount of money due
+Amount NUMERIC(12,2) NOT NULL,	                    --Amount of money due
 FOREIGN KEY (UID) REFERENCES Client(UID),
 FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)
 );
@@ -134,15 +134,13 @@ CREATE INDEX IF NOT EXISTS idx_ut_copy ON UserTransaction(CopyID);      -- Index
 CREATE INDEX IF NOT EXISTS idx_ut_client ON UserTransaction(ClientID);  -- Index on ClientID for efficient client searches
 CREATE INDEX IF NOT EXISTS idx_ut_lib ON UserTransaction(LibrarianID);  -- Index on LibrarianID for efficient librarian searches
 
-
--- Create Assists table: Amrit
-CREATE TABLE IF NOT EXISTS Assists (                            -- Creates the Assists table if it doesn't already exist
-    LibrarianID CHAR(8) NOT NULL,                               -- References the librarian assisting with the transaction
-    TransactionID CHAR(8) NOT NULL,                             -- References the related transaction
-    PRIMARY KEY (TransactionID),                   -- Composite primary key (each librarian-transaction pair is unique)
-    FOREIGN KEY (LibrarianID) REFERENCES Librarian(UID),        -- Foreign key linking to Librarian table
-    FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID)  -- Foreign key linking to UserTransaction table
-);                                                              -- Ends table creation
+CREATE TABLE IF NOT EXISTS Assists(
+    LibrarianID CHAR(8) NOT NULL, -- References the librarian assisting with the transaction
+    TransactionID CHAR(8) NOT NULL, -- References the related transaction
+    PRIMARY KEY (LibrarianID, TransactionID), -- Composite primary key (each librarian-transaction pair is unique)
+    FOREIGN KEY (LibrarianID) REFERENCES Librarian(UID), -- Foreign key linking to Librarian table
+    FOREIGN KEY (TransactionID) REFERENCES UserTransaction(TransactionID) -- Foreign key linking to UserTransaction table
+);
 
 -- Creates Pays Table: Eric
 CREATE TABLE IF NOT EXISTS Pays (

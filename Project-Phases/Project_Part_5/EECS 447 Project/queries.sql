@@ -13,6 +13,27 @@ LAST UPDATED: OCTOBER 29, 2025
 -- Find all available fiction books: Jaiden
 SELECT Title FROM Items WHERE Genre = 'Fiction' AND Availability = 1;
 
+-- List all clients who currently have overdue items
+SELECT U.Fname, U.Lname, I.Title, T.DueDate
+FROM UserTransaction T
+JOIN Client C ON T.ClientID = C.UID
+JOIN USER U ON C.UID = U.UID
+JOIN Items I ON T.CopyID = I.CopyID
+WHERE T.ReturnDate IS NULL AND T.DueDate < CURRENT_DATE;
+
+-- Display total revenue collected from paid fees
+SELECT SUM(Amount) AS TotalRevenue
+FROM FEE
+WHERE PaidStatus = TRUE;
+
+-- Show librarians and how many transactions they assisted with
+SELECT U.Fname, U.Lname, COUNT(A.TransactionID) AS NumTransactionsAssisted
+FROM Assists A
+JOIN Librarian L ON A.LibrarianID = L.UID
+JOIN USER U ON L.UID = U.UID
+GROUP BY U.Fname, U.Lname
+ORDER BY NumTransactionsAssisted DESC;
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Updates
 --~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -241,7 +241,35 @@ Insert INTO Assists VALUES ('U0000010', 'T00000010');
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Pays
 --~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Luffy paid late fee (F0000001)
+INSERT INTO Pays VALUES ('F0000001', 'U0000001', 'T0000001', '2025-10-16', 5.00);
 
+-- Frank paid early (F0000002)
+INSERT INTO Pays VALUES ('F0000002', 'U0000002', 'T0000002', '2025-10-19', 5.00);
+
+-- Mac paid on time (F0000005)
+INSERT INTO Pays VALUES ('F0000005', 'U0000005', 'T0000005', '2025-10-25', 5.00);
+
+-- Charlie paid late (F0000006)
+INSERT INTO Pays VALUES ('F0000006', 'U0000006', 'T0000006', '2025-11-01', 5.00);
+
+-- Frank paid on time again (F0000008)
+INSERT INTO Pays VALUES ('F0000008', 'U0000002', 'T0000008', '2025-10-18', 5.00);
+
+-- Luffy (new on-time payment)
+INSERT INTO Pays VALUES ('F0000011', 'U0000001', 'T0000007', '2025-11-11', 5.00);
+
+-- Dennis made a late payment
+INSERT INTO Pays VALUES ('F0000012', 'U0000003', 'T0000009', '2025-11-10', 5.00);
+
+-- Dee cleared her balance
+INSERT INTO Pays VALUES ('F0000013', 'U0000004', 'T0000010', '2025-11-12', 5.00);
+
+-- Mac paid for damaged cover
+INSERT INTO Pays VALUES ('F0000014', 'U0000005', 'T0000005', '2025-11-02', 3.00);
+
+-- Charlie paid for lost magazine
+INSERT INTO Pays VALUES ('F0000015', 'U0000006', 'T0000006', '2025-11-05', 8.00);
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    FEE
 --~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,6 +303,21 @@ INSERT INTO FEE VALUES ('F0000009','U0000003','2025-11-02', NULL, TRUE ,'Pending
 
 -- Dee, T0000010: unpaid, future due date
 INSERT INTO FEE VALUES ('F0000010','U0000004','2025-11-12', NULL, FALSE,'Pending', FALSE,'T0000010', 5.00);
+
+-- Luffy paid for a second rental (on time)
+INSERT INTO FEE VALUES ('F0000011','U0000001','2025-11-10','2025-11-11', FALSE,'Credit Card', TRUE,'T0000007', 5.00);
+
+-- Dennis paid his overdue fee (late but now paid)
+INSERT INTO FEE VALUES ('F0000012','U0000003','2025-11-02','2025-11-10', TRUE,'Cash', TRUE,'T0000009', 5.00);
+
+-- Dee cleared her balance on due date
+INSERT INTO FEE VALUES ('F0000013','U0000004','2025-11-12','2025-11-12', FALSE,'Debit Card', TRUE,'T0000010', 5.00);
+
+-- Mac paid small fee for damaged cover
+INSERT INTO FEE VALUES ('F0000014','U0000005','2025-11-02','2025-11-02', FALSE,'Online', TRUE,'T0000005', 3.00);
+
+-- Charlie paid for lost magazine
+INSERT INTO FEE VALUES ('F0000015','U0000006','2025-11-05','2025-11-05', FALSE,'Credit Card', TRUE,'T0000006', 8.00);
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Rents

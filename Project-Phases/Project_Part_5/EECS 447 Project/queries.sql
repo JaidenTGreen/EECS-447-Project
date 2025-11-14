@@ -38,7 +38,7 @@ FROM FEE
 WHERE PaidStatus = TRUE;
 
 -- Show librarians and how many transactions they assisted with
--- Name: Librarian transaction number
+-- Name: Librarian Transaction Assists
 SELECT U.Fname, U.Lname, COUNT(A.TransactionID) AS NumTransactionsAssisted
 FROM Assists A
 JOIN Librarian L ON A.LibrarianID = L.UID
@@ -70,7 +70,7 @@ JOIN Items I ON T.CopyID = I.CopyID;
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Late returns report: Jaiden
--- Name: Late returns
+-- Name: Late Returns
 SELECT U.Fname || ' ' || U.Lname AS ClientName, I.Title, T.DueDate, T.ReturnDate
 FROM UserTransaction T
 JOIN Client C ON T.ClientID = C.UID
@@ -78,24 +78,39 @@ JOIN LIBUSER U ON C.UID = U.UID
 JOIN Items I ON T.CopyID = I.CopyID
 WHERE T.ReturnDate > T.DueDate;
 
--- Name: Assists activity
+-- Name: Assists Activity
 SELECT Fname, Lname, LibrarianID, COUNT(*) AS TransactionsHelped
 FROM Assists JOIN LIBUSER ON LibrarianID = UID
 GROUP BY LibrarianID
 ORDER BY TransactionsHelped DESC;
 
--- Name: Overdue fees
+-- Name: Overdue Fees
 SELECT FeeID, UID, DueDate, Overdue, PaidStatus
 FROM Fee
 WHERE Overdue = TRUE AND PaidStatus = FALSE;
 
--- Name: Check availability
+-- Name: Item Availability
 SELECT CopyID, Title, Availability
 FROM Items
 WHERE Availability = TRUE;
 
--- Name: Number of checkouts
+-- Name: Checkouts Per Item
 SELECT Title, NumofCheckouts
 FROM Items
 ORDER BY NumofCheckouts DESC
 
+-- Name: Unpaid Fees
+SELECT * FROM Fee
+WHERE PaidStatus = 0;
+
+-- Name: High Rated Movies
+SELECT Title, m.Rating
+FROM ITEMS i 
+JOIN MOVIES m ON i.CopyID = m. CopyID
+WHERE m.Rating >= 90;
+
+-- Name: Reserved Items
+SELECT l.Fname, l.UID, i.Title 
+FROM RESERVES  r 
+JOIN LIBUSER l ON r.UID = l.UID
+JOIN ITEMS i ON i.CopyID = r.CopyID

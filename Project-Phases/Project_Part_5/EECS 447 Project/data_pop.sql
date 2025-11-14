@@ -59,34 +59,34 @@ INSERT INTO Librarian VALUES ('U0000010', 70000.00);
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --Luffy reserves Great Gatsby: Jaiden
-INSERT INTO Reserves VALUES ('U0000001', 'C0000001', '2025-09-15');
+INSERT INTO Reserves VALUES ('C0000001', 'U0000001', '2025-09-15');
 
---Frank reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000002', 'C0000002', '2025-09-16');
+--Frank reserves To Kill a Mockingbird: Jaiden
+INSERT INTO Reserves VALUES ('C0000002', 'U0000002', '2025-09-16');
 
---Dennis reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000003', 'C0000003', '2025-09-17');
+--Dennis reserves 1984: Jaiden
+INSERT INTO Reserves VALUES ('C0000003', 'U0000003', '2025-09-17');
 
---Dee reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000004', 'C0000004', '2025-09-18');
+--Dee reserves Clean Code: Jaiden
+INSERT INTO Reserves VALUES ('C0000004', 'U0000004', '2025-09-18');
 
---Mac reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000005', 'C0000005', '2025-09-19');
+--Mac reserves The Pragmatic Programmer: Jaiden
+INSERT INTO Reserves VALUES ('C0000005', 'U0000005', '2025-09-19');
 
---Charlie reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000006', 'C0000006', '2025-09-20');
+--Charlie reserves The Hobbit: Jaiden
+INSERT INTO Reserves VALUES ('C0000006', 'U0000006', '2025-09-20');
 
---Luffy reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000001', 'C0000007', '2025-09-21');
+--Luffy reserves Sapiens: Jaiden
+INSERT INTO Reserves VALUES ('C0000007', 'U0000001', '2025-09-21');
 
---Frank reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000002', 'C0000008', '2025-09-22'); 
+--Frank reserves Dune: Jaiden
+INSERT INTO Reserves VALUES ('C0000008', 'U0000002', '2025-09-22'); 
 
---Dennis reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000003', 'C0000009', '2025-09-23');
+--Dennis reserves The Catcher in the Rye: Jaiden
+INSERT INTO Reserves VALUES ('C0000009', 'U0000003', '2025-09-23');
 
---Dee reserves ___: Jaiden
-INSERT INTO Reserves VALUES ('U0000004', 'C0000010', '2025-09-24');
+--Dee reserves Introduction to Algorithms: Jaiden
+INSERT INTO Reserves VALUES ('C0000010', 'U0000004', '2025-09-24');
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    ITEMS and BOOKS
@@ -106,7 +106,7 @@ INSERT INTO Items (CopyID, Title, Genre, ReleaseDate, Availability, NumofCheckou
 ('C0000010','Introduction to Algorithms','Education','2009-07-31', 1, 7, NULL);
 
 INSERT INTO Books (CopyID, ISBN, Author) VALUES 
-('C0000001', '9780743273565', 'F. Scott Fitzgerald'),
+('C0000001','9780743273565', 'F. Scott Fitzgerald'),
 ('C0000002','9780061120084','Harper Lee'),
 ('C0000003','9780451524935','George Orwell'),
 ('C0000004','9780132350884','Robert C. Martin'),
@@ -192,7 +192,7 @@ INSERT INTO Rented (TransactionID, CopyID) VALUES
 ('T0000006','C0000016'),
 ('T0000007','C0000019'),
 ('T0000008','C0000024'),
-('T0000009','C00000011'), 
+('T0000009','C0000011'), 
 ('T0000010','C0000006');
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -202,6 +202,42 @@ INSERT INTO Rented (TransactionID, CopyID) VALUES
 --Luffy checks out Great Gatsby, helped by Mike Wazowski: Jaiden
 INSERT INTO UserTransaction VALUES ('T0000001', 0, 'C0000001', 'U0000001', 'U0000002', '2025-10-01', '2025-10-15', NULL);
 
+-- Frank checks out '1984', paid early
+INSERT INTO UserTransaction VALUES
+('T0000002', 0, 'C0000003', 'U0000002', 'U0000007', '2025-10-06', '2025-10-20', '2025-10-19');
+
+-- Dennis checks out 'The Hobbit', overdue at first
+INSERT INTO UserTransaction VALUES
+('T0000003', 0, 'C0000006', 'U0000003', 'U0000010', '2025-10-08', '2025-10-22', NULL);
+
+-- Dee checks out 'Dune', not yet overdue
+INSERT INTO UserTransaction VALUES
+('T0000004', 0, 'C0000008', 'U0000004', 'U0000009', '2025-10-22', '2025-11-05', NULL);
+
+-- Mac checks out 'Arrival', paid on time
+INSERT INTO UserTransaction VALUES
+('T0000005', 0, 'C0000013', 'U0000005', 'U0000008', '2025-10-11', '2025-10-25', '2025-10-25');
+
+-- Charlie checks out 'Interstellar', paid late
+INSERT INTO UserTransaction VALUES
+('T0000006', 0, 'C0000016', 'U0000006', 'U0000008', '2025-10-14', '2025-10-28', '2025-11-01');
+
+-- Luffy checks out 'The Martian'
+INSERT INTO UserTransaction VALUES
+('T0000007', 0, 'C0000019', 'U0000001', 'U0000009', '2025-10-27', '2025-11-10', '2025-11-11');
+
+-- Frank checks out 'Time Nov 2025'
+INSERT INTO UserTransaction VALUES
+('T0000008', 0, 'C0000024', 'U0000002', 'U0000007', '2025-10-04', '2025-10-18', '2025-10-18');
+
+-- Dennis checks out 'Inception'
+INSERT INTO UserTransaction VALUES
+('T0000009', 0, 'C0000011', 'U0000003', 'U0000010', '2025-10-19', '2025-11-02', '2025-11-10');
+
+-- Dee checks out 'The Hobbit' again
+INSERT INTO UserTransaction VALUES
+('T0000010', 0, 'C0000006', 'U0000004', 'U0000010', '2025-10-29', '2025-11-12', '2025-11-12');
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Assists
 --~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -209,34 +245,32 @@ INSERT INTO UserTransaction VALUES ('T0000001', 0, 'C0000001', 'U0000001', 'U000
 -- Mike Wazowsky helps Luffy with checking out Great Gatsby: Jaiden
 Insert INTO Assists VALUES ('U0000007', 'T0000001');
 
--- Mike Wazowsky helps ___ with checking out ___: Jaiden
+-- Mike Wazowsky helps Frank with checking out 1984: Jaiden
 Insert INTO Assists VALUES ('U0000007', 'T0000002');
 
--- Edna Mode helps ___ with checking out ___: Jaiden
+-- Edna Mode helps Dennis with checking out The Hobbit: Jaiden
 Insert INTO Assists VALUES ('U0000010', 'T0000003');
 
--- Danny Phantom helps ___ with checking out ___: Jaiden
+-- Danny Phantom helps Dee with checking out Dune: Jaiden
 Insert INTO Assists VALUES ('U0000009', 'T0000004');
 
--- Scrooge McDuck helps ___ with checking out ___: Jaiden
+-- Scrooge McDuck helps Mac with checking out Arrival: Jaiden
 Insert INTO Assists VALUES ('U0000008', 'T0000005');
 
--- Scrooge McDuck helps ___ with checking out ___: Jaiden
+-- Scrooge McDuck helps Charlie with checking out Interstellar: Jaiden
 Insert INTO Assists VALUES ('U0000008', 'T0000006');
 
--- Danny Phantom helps ___ with checking out ___: Jaiden
+-- Danny Phantom helps Luffy with checking out The Martian: Jaiden
 Insert INTO Assists VALUES ('U0000009', 'T0000007');
 
--- Mike Wazowsky helps ___ with checking out ___: Jaiden
+-- Mike Wazowsky helps Frank with checking out Time Nov 2025: Jaiden
 Insert INTO Assists VALUES ('U0000007', 'T0000008');
 
--- Edna Mode helps ___ with checking out ___: Jaiden
+-- Edna Mode helps Dennis with checking out Inception: Jaiden
 Insert INTO Assists VALUES ('U0000010', 'T0000009');
 
--- Edna Mode helps ___ with checking out ___: Jaiden
-Insert INTO Assists VALUES ('U0000010', 'T00000010');
-
-
+-- Edna Mode helps Dee with checking out The Hobbit: Jaiden
+Insert INTO Assists VALUES ('U0000010', 'T0000010');
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Pays

@@ -12,9 +12,19 @@ def run_query(sql, params=None):
     if params is None:
         params = ()
     conn = get_connection()
-    df = pd.read_sql_query(sql, conn, params=params)
-    conn.close()
-    return df
+
+    try:
+        stripped = sql.strip().lower()
+        if stripped.startswith("select"):
+            df = pd.read_sql_query(sql, conn, params=params)
+            return df
+        else:
+            cur = conn.cursor()
+            cur.execute(sql, params)
+            conn.commit()
+            return None
+    finally:
+        conn.close()
 
 def get_counts():
     queries = {
@@ -91,13 +101,16 @@ def main():
 
         st.markdown("### Items Currently Checked Out")
         checked_out = run_query("""
-            SELECT i.CopyID, i.Title, i.Genre, i.DueDate,
-                   ut.ClientID, lu.Fname || ' ' || lu.Lname AS ClientName
-            FROM Items i
-            JOIN UserTransaction ut ON ut.CopyID = i.CopyID
-            JOIN Client c ON c.UID = ut.ClientID
-            JOIN LIBUSER lu ON lu.UID = c.UID
-            WHERE i.Availability = 0;
+            SELECT 
+                i.Title,
+                ut.CopyID,
+                ut.ClientID,     
+                ut.TransactionID,
+                ut.CheckoutDate,
+                ut.DueDate
+            FROM UserTransaction ut
+            JOIN Items i ON i.CopyID = ut.CopyID
+            WHERE ut.ReturnDate IS NULL;
         """)
         st.dataframe(checked_out, width='stretch')
 
@@ -126,11 +139,18 @@ def main():
         sql = st.text_area("Write SQL here:")
 
         if st.button("Run Query"):
-            try:
-                df = run_query(sql)
-                st.dataframe(df, width='stretch')
-            except Exception as e:
-                st.error(f"Error running query: {e}")
+            if not sql.strip():
+                st.warning("Please enter a SQL statement.")
+            else:
+                try:
+                    result = run_query(sql)
+
+                    if isinstance(result, pd.DataFrame):
+                        st.dataframe(result, width='stretch')
+                    else:
+                        st.success("Query executed successfully.")
+                except Exception as e:
+                    st.error(f"Error running query: {e}")
 
 if __name__ == "__main__":
     main()

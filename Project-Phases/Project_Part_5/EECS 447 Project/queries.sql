@@ -10,7 +10,7 @@ LAST UPDATED: NOVEMBER 13, 2025
 This file is used to store predetermined queries
 Formatted as:
 
--- Name: (name of query)
+Name: (name of query)
 (actual SQL code)
 
 */

@@ -46,6 +46,37 @@ JOIN LIBUSER U ON L.UID = U.UID
 GROUP BY U.Fname, U.Lname
 ORDER BY NumTransactionsAssisted DESC;
 
+-- Finds clients who do not currently have any reservations (Shero)
+-- Name: Clients with No Reservations     
+SELECT 
+    U.Fname,
+    U.Lname,
+    C.UID
+FROM Client C
+JOIN LIBUSER U ON C.UID = U.UID
+LEFT JOIN Reserves R ON R.UID = C.UID
+WHERE R.UID IS NULL;
+
+-- Shows clients who have fees, but no unpaid fees remaining (Shero)
+-- Name: Clients with All Fees Paid
+SELECT 
+    U.Fname,
+    U.Lname,
+    C.UID
+FROM Client C
+JOIN LIBUSER U ON C.UID = U.UID
+WHERE EXISTS (
+    SELECT 1 
+    FROM Fee F
+    WHERE F.UID = C.UID
+)
+AND NOT EXISTS (
+    SELECT 1
+    FROM Fee F2
+    WHERE F2.UID = C.UID
+      AND F2.PaidStatus = FALSE
+);
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Updates
 --~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,6 +95,20 @@ FROM UserTransaction T
 JOIN Client C ON T.ClientID = C.UID
 JOIN LIBUSER U ON C.UID = U.UID
 JOIN Items I ON T.CopyID = I.CopyID;
+
+-- Shows how many unique clients each librarian has helped (Shero)
+-- Name: Librarian Client Interaction Count     
+SELECT 
+    L.UID AS LibrarianID,
+    U.Fname,
+    U.Lname,
+    COUNT(DISTINCT T.ClientID) AS NumClientsHelped
+FROM Librarian L
+JOIN LIBUSER U ON L.UID = U.UID
+JOIN Assists A ON L.UID = A.LibrarianID
+JOIN UserTransaction T ON T.TransactionID = A.TransactionID
+GROUP BY L.UID, U.Fname, U.Lname
+ORDER BY NumClientsHelped DESC;
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~
 --    Reports
@@ -114,3 +159,34 @@ SELECT l.Fname, l.UID, i.Title
 FROM RESERVES  r 
 JOIN LIBUSER l ON r.UID = l.UID
 JOIN ITEMS i ON i.CopyID = r.CopyID
+
+-- Shows how many rentals each client has made
+-- Name: Most Active Clients (Rent Count) (Shero)
+SELECT 
+    U.Fname,
+    U.Lname,
+    R.UID,
+    COUNT(*) AS NumRentals
+FROM Rents R
+JOIN LIBUSER U ON R.UID = U.UID
+GROUP BY U.Fname, U.Lname, R.UID
+ORDER BY NumRentals DESC;
+
+-- Lists clients who have at least one reservation and at least one rental
+-- Name: Clients with Reservations and Rentals  (Shero)
+SELECT 
+    U.Fname,
+    U.Lname,
+    C.UID
+FROM Client C
+JOIN LIBUSER U ON C.UID = U.UID
+WHERE EXISTS (
+    SELECT 1 
+    FROM Reserves R 
+    WHERE R.UID = C.UID
+)
+AND EXISTS (
+    SELECT 1 
+    FROM Rents Rt
+    WHERE Rt.UID = C.UID
+);

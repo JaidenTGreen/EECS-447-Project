@@ -190,3 +190,38 @@ AND EXISTS (
     FROM Rents Rt
     WHERE Rt.UID = C.UID
 );
+
+-- Name: Top Circulated Items
+SELECT 
+    Title,
+    NumofCheckouts
+FROM Items
+ORDER BY NumofCheckouts DESC
+LIMIT 10;
+
+-- Name: Clients With Overdue Unpaid Fees
+SELECT 
+    U.Fname,
+    U.Lname,
+    F.FeeID,
+    F.Amount,
+    F.DueDate
+FROM Fee F
+JOIN Client C ON F.UID = C.UID
+JOIN LIBUSER U ON C.UID = U.UID
+WHERE F.Overdue = TRUE
+  AND F.PaidStatus = FALSE;
+
+-- Name: Currently Checked Out Items
+SELECT 
+    I.Title,
+    T.CopyID,
+    U.Fname,
+    U.Lname,
+    T.CheckoutDate,
+    T.DueDate
+FROM UserTransaction T
+JOIN Items I ON T.CopyID = I.CopyID
+JOIN Client C ON T.ClientID = C.UID
+JOIN LIBUSER U ON C.UID = U.UID
+WHERE T.ReturnDate IS NULL;
